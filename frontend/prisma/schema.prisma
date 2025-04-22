@@ -14,4 +14,14 @@ model User {
   password  String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  history   History[]
+}
+
+model History {
+  id         String   @id @default(cuid())
+  query      String
+  response   String   @db.Text
+  createdAt  DateTime @default(now())
+  userId     String
+  user       User     @relation(fields: [userId], references: [id])
 } 

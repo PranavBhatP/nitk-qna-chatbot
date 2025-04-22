@@ -1,96 +1,127 @@
 "use client"
 
-import { useState } from "react"
-import { useRouter } from "next/navigation"
-import Link from "next/link"
+import { useState } from 'react'
+import { useRouter } from 'next/navigation'
+import Link from 'next/link'
+import { Card, CardHeader, CardTitle, CardContent, CardFooter } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card"
-import { Label } from "@/components/ui/label"
+import { LogIn, ArrowRight, Mail, Lock } from 'lucide-react'
 
-export default function LoginPage() {
+export default function Login() {
   const router = useRouter()
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-  })
-  const [error, setError] = useState("")
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [error, setError] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    setError('')
+    setIsLoading(true)
+
     try {
-      const response = await fetch("/api/auth/login", {
-        method: "POST",
+      const response = await fetch('/api/auth/login', {
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({ email, password }),
       })
 
-      if (response.ok) {
-        router.push("/dashboard") // Redirect to dashboard after successful login
-      } else {
+      if (!response.ok) {
         const data = await response.json()
-        setError(data.message || "Login failed")
+        throw new Error(data.message || 'Login failed')
       }
-    } catch (err) {
-      setError("An error occurred during login")
+
+      router.push('/dashboard')
+    } catch (error) {
+      setError(error instanceof Error ? error.message : 'Login failed')
+    } finally {
+      setIsLoading(false)
     }
   }
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { id, value } = e.target
-    setFormData(prev => ({
-      ...prev,
-      [id]: value
-    }))
-  }
-
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50">
-      <Card className="w-[400px]">
-        <CardHeader>
-          <CardTitle>Login</CardTitle>
-          <CardDescription>Enter your credentials to access your account</CardDescription>
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 flex flex-col items-center justify-center p-4">
+      <Link 
+        href="/"
+        className="text-2xl font-bold mb-8 bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent hover:opacity-80 transition-opacity"
+      >
+        NITK Q&A Assistant
+      </Link>
+
+      <Card className="w-full max-w-md border-0 shadow-xl ring-1 ring-black/5">
+        <CardHeader className="space-y-1 text-center">
+          <CardTitle className="text-2xl font-bold">Welcome back</CardTitle>
+          <p className="text-sm text-gray-600">
+            Sign in to your account to continue
+          </p>
         </CardHeader>
-        <form onSubmit={handleSubmit}>
-          <CardContent>
-            {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
-            <div className="space-y-4">
-              <div>
-                <Label htmlFor="email">Email</Label>
+        <CardContent>
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="space-y-2">
+              <div className="relative">
+                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
                 <Input
-                  id="email"
                   type="email"
-                  placeholder="Enter your email"
-                  value={formData.email}
-                  onChange={handleInputChange}
-                  required
-                />
-              </div>
-              <div>
-                <Label htmlFor="password">Password</Label>
-                <Input
-                  id="password"
-                  type="password"
-                  placeholder="Enter your password"
-                  value={formData.password}
-                  onChange={handleInputChange}
+                  placeholder="Email address"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="pl-10"
                   required
                 />
               </div>
             </div>
-          </CardContent>
-          <CardFooter className="flex flex-col space-y-4">
-            <Button type="submit" className="w-full">Login</Button>
-            <p className="text-sm text-center">
-              Don't have an account?{" "}
-              <Link href="/signup" className="text-blue-600 hover:underline">
-                Sign up
-              </Link>
-            </p>
-          </CardFooter>
-        </form>
+            <div className="space-y-2">
+              <div className="relative">
+                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+                <Input
+                  type="password"
+                  placeholder="Password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="pl-10"
+                  required
+                />
+              </div>
+            </div>
+            {error && (
+              <div className="text-sm text-red-500 bg-red-50 p-3 rounded-lg">
+                {error}
+              </div>
+            )}
+            <Button
+              type="submit"
+              className="w-full bg-blue-600 hover:bg-blue-700 text-white flex items-center justify-center gap-2"
+              disabled={isLoading}
+            >
+              {isLoading ? (
+                <div className="flex items-center gap-2">
+                  <div className="h-1.5 w-1.5 bg-white rounded-full animate-bounce [animation-delay:-0.3s]"></div>
+                  <div className="h-1.5 w-1.5 bg-white rounded-full animate-bounce [animation-delay:-0.15s]"></div>
+                  <div className="h-1.5 w-1.5 bg-white rounded-full animate-bounce"></div>
+                </div>
+              ) : (
+                <>
+                  <LogIn className="h-4 w-4" />
+                  Sign in
+                </>
+              )}
+            </Button>
+          </form>
+        </CardContent>
+        <CardFooter className="flex flex-col space-y-4">
+          <div className="text-sm text-gray-600 text-center">
+            Don't have an account?{' '}
+            <Link 
+              href="/signup" 
+              className="text-blue-600 hover:text-blue-700 font-medium inline-flex items-center gap-1"
+            >
+              Create account <ArrowRight className="h-3 w-3" />
+            </Link>
+          </div>
+        </CardFooter>
       </Card>
     </div>
   )

@@ -18,7 +18,6 @@ const initializeVectorStore = async () => {
     console.log("Initializing vector store...");
     // Initialize Pinecone
     const pinecone = new pinecone_2.Pinecone({
-        environment: process.env.PINECONE_ENVIRONMENT,
         apiKey: process.env.PINECONE_API_KEY,
     });
     const index = pinecone.Index(process.env.PINECONE_INDEX);

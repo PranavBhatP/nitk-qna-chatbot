@@ -14,9 +14,7 @@ const initializeVectorStore = async () => {
 
   console.log("Initializing vector store...")
 
-  // Initialize Pinecone
   const pinecone = new Pinecone({
-    environment: process.env.PINECONE_ENVIRONMENT!,
     apiKey: process.env.PINECONE_API_KEY!,
   })
 
@@ -65,7 +63,6 @@ export const handleQuery = async (query: string) => {
   try {
     console.log("Handling query:", query)
     
-    // Initialize vector store if not already done
     if (!vectorStore) {
       await initializeVectorStore()
     }
@@ -74,15 +71,12 @@ export const handleQuery = async (query: string) => {
       throw new Error('Vector store initialization failed')
     }
 
-    // Search for relevant documents
     console.log("Searching for relevant documents...")
     const docs = await vectorStore.similaritySearch(query, 3)
     console.log(`Found ${docs.length} relevant documents`)
 
-    // Create context from documents
     const context = docs.map(doc => doc.pageContent).join('\n\n')
     
-    // Create prompt with context
     const prompt = `
     Use the following context to answer the question. If the answer cannot be found in the context, say "I don't have enough information to answer that question."
     

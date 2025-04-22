@@ -1,101 +1,134 @@
-import Image from "next/image";
+import Link from 'next/link'
+import { Button } from "@/components/ui/button"
+import { ArrowRight, Brain, Search, History, Bot, Database, Code } from 'lucide-react'
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+  const features = [
+    {
+      icon: <Brain className="h-6 w-6" />,
+      title: "AI-Powered Responses",
+      description: "Get instant, accurate answers about NITK using advanced language models"
+    },
+    {
+      icon: <Search className="h-6 w-6" />,
+      title: "Smart Search",
+      description: "Intelligent search suggestions based on previous queries and common questions"
+    },
+    {
+      icon: <History className="h-6 w-6" />,
+      title: "Query History",
+      description: "Keep track of your previous questions and answers for quick reference"
+    }
+  ]
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+  const technologies = [
+    {
+      icon: <Bot className="h-6 w-6" />,
+      name: "LangChain",
+      description: "Advanced LLM framework for natural language processing"
+    },
+    {
+      icon: <Database className="h-6 w-6" />,
+      name: "Vector Database",
+      description: "Efficient storage and retrieval of semantic information"
+    },
+    {
+      icon: <Code className="h-6 w-6" />,
+      name: "Next.js & React",
+      description: "Modern web framework for a seamless user experience"
+    }
+  ]
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
+      <header className="w-full p-4 bg-white/80 backdrop-blur-sm sticky top-0 z-50 border-b border-gray-200">
+        <div className="max-w-7xl mx-auto flex justify-between items-center">
+          <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+            NITK Q&A Assistant
+          </h1>
+          <div className="flex items-center gap-4">
+            <Link href="/login">
+              <Button variant="ghost">Sign in</Button>
+            </Link>
+            <Link href="/signup">
+              <Button>Get Started</Button>
+            </Link>
+          </div>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+      </header>
+
+      <section className="py-20 px-4">
+        <div className="max-w-7xl mx-auto text-center">
+          <h2 className="text-5xl font-bold mb-6 bg-gradient-to-r from-gray-900 to-gray-600 bg-clip-text text-transparent">
+            Your AI-Powered Guide to NITK
+          </h2>
+          <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
+            Get instant, accurate answers to all your questions about National Institute of Technology Karnataka
+          </p>
+          <Link href="/signup">
+            <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white">
+              Start Asking Questions <ArrowRight className="ml-2 h-4 w-4" />
+            </Button>
+          </Link>
+        </div>
+      </section>
+
+      <section className="py-20 px-4 bg-white/50">
+        <div className="max-w-7xl mx-auto">
+          <h3 className="text-3xl font-bold text-center mb-12">Key Features</h3>
+          <div className="grid md:grid-cols-3 gap-8">
+            {features.map((feature, index) => (
+              <div
+                key={index}
+                className="p-6 rounded-2xl bg-white shadow-lg border border-gray-100 hover:shadow-xl transition-shadow"
+              >
+                <div className="h-12 w-12 rounded-lg bg-blue-50 flex items-center justify-center mb-4 text-blue-600">
+                  {feature.icon}
+                </div>
+                <h4 className="text-xl font-semibold mb-2">{feature.title}</h4>
+                <p className="text-gray-600">{feature.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="py-20 px-4">
+        <div className="max-w-7xl mx-auto">
+          <h3 className="text-3xl font-bold text-center mb-12">Powered By</h3>
+          <div className="grid md:grid-cols-3 gap-8">
+            {technologies.map((tech, index) => (
+              <div
+                key={index}
+                className="p-6 rounded-2xl bg-gradient-to-br from-gray-900 to-gray-800 text-white"
+              >
+                <div className="h-12 w-12 rounded-lg bg-white/10 flex items-center justify-center mb-4">
+                  {tech.icon}
+                </div>
+                <h4 className="text-xl font-semibold mb-2">{tech.name}</h4>
+                <p className="text-gray-300">{tech.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="py-20 px-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-white">
+        <div className="max-w-7xl mx-auto text-center">
+          <h3 className="text-3xl font-bold mb-6">
+            Ready to Get Your Questions Answered?
+          </h3>
+          <p className="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
+            Join now and get instant access to our AI-powered NITK knowledge base
+          </p>
+          <Link href="/signup">
+            <Button size="lg" variant="secondary" className="bg-white text-blue-600 hover:bg-blue-50">
+              Create Your Account <ArrowRight className="ml-2 h-4 w-4" />
+            </Button>
+          </Link>
+        </div>
+      </section>
+
     </div>
-  );
+  )
 }
