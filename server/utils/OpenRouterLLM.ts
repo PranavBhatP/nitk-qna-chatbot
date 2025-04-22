@@ -32,7 +32,7 @@ export class OpenRouterLLM extends LLM {
           "messages": [
             {
               "role": "user",
-              "content": prompt
+              "content": "You are answering questions about National Institute of Technology, Karnataka." + prompt
             }
           ]
         })

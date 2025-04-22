@@ -24,7 +24,7 @@ class OpenRouterLLM extends base_1.LLM {
                     "messages": [
                         {
                             "role": "user",
-                            "content": prompt
+                            "content": "You are answering questions about National Institute of Technology, Karnataka." + prompt
                         }
                     ]
                 })
